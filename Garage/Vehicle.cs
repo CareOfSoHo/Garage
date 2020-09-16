@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Garage
 {
     public abstract class Vehicle
@@ -12,6 +16,29 @@ namespace Garage
             this.RegNo = regNo;
             this.Color = color;
             this.NoOfWheels = noOfWheels;
+            Stats();
+        }
+        public virtual string Stats()
+        {
+            //Return Base propertise.
+            return $"RegNo: {RegNo}, Color: {Color}, NoWheels: {NoOfWheels}";
+        }
+
+        public static string CheckRegNo(string regno)
+        {
+            if(regno.Length == 6)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (!char.IsLetter(regno[i])) return null;
+                }
+                for (int i = 3; i < 6; i++)
+                {
+                    if (!char.IsDigit(regno[i])) return null;
+                }
+                return regno.ToUpper();
+            }
+            return null;
         }
 
     }
@@ -20,75 +47,188 @@ namespace Garage
     //underklass till Vehicles
     class AirPlane : Vehicle
     {
-        int NumberofEngines = 1;
-        string Model = "Black Hawk";
-        public AirPlane(string regNo, string color, int noOfWheels) : base(regNo, color, noOfWheels)
+        private string model;
+        private int noEngin;
+        
+        public AirPlane(string regNo, string color, int noOfWheels, int noEngin, string model) : base(regNo, color, noOfWheels)
         {
+            this.NoEngin = noEngin;
+            this.Model = model;
+
+            Stats();
+        }
+
+        public int NoEngin
+        {
+            get
+            {
+                return this.noEngin;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Sorry, we don't accept vehicles without engines");
+                }
+                this.noEngin = value;
+            }
+        }
+        public string Model
+        {
+            get
+            {
+                return this.model;
+            }
+            set
+            {
+                //at least two caracters required
+                if (value.Length < 3 )
+                {
+                    throw new ArgumentException("The model must contain at least two caracters");
+                }
+                this.model = value;
+
+            }
         }
         public override string ToString()
         {
-            return $"This is a {this.Model}, The regNo: {this.RegNo}, Color: {this.Color}, No of Wheels: {this.NoOfWheels}, No of engines: {this.NumberofEngines}";
+            return $"This is a {Model}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, No of engines: {noEngin}";
+        }
+        public override string Stats()
+        {
+            //
+            return $"\n{base.Stats()} Model: {Model}, NoofEngines: {noEngin}";
         }
 
-        //public override string Stats()
-        //{
-        //    //Här anropas superklassens metod, hämtar egenskaperna i string-format och konkatenerar med hästens color-egenskap.
-        //    return $"\n{base.Stats()} Color: {this.Color}";
-        //}
-        //public override void DoSound()
-        //{
-        //    //Exempel på implementering
-        //    Console.WriteLine("IHahahah");
-        //}
     }
 
     class Boat : Vehicle
     {
-        string CylinderVolume = "30mm";
-        public Boat(string regNo, string color, int noOfWheels) : base(regNo, color, noOfWheels)
+        private int cylVol;
+        public Boat(string regNo, string color, int noOfWheels, int cylVol) : base(regNo, color, noOfWheels)
         {
+            this.CylinderVolume = cylVol;
         }
         public override string ToString()
         {
-            return $"The regNo: {this.RegNo}, Color: {this.Color}, No of Wheels: {this.NoOfWheels}, CylinderVolume: {this.CylinderVolume}";
+            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, CylinderVolume: {CylinderVolume}";
         }
 
+        public int CylinderVolume {
+            get
+            {
+                return this.cylVol;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Sorry, cannot be 0 or negative number");
+                }
+                this.cylVol = value;
+            }
+        }
+        public override string Stats()
+        {
+            //
+            return $"\n{base.Stats()} CylinderVol: {cylVol}";
+        }
     }
 
     class Bus : Vehicle
     {
-        int NoOfSeats = 67;
-        public Bus(string regNo, string color, int noOfWheels) : base(regNo, color, noOfWheels)
+        private int noOfSeats;
+        public Bus(string regNo, string color, int noOfWheels, int noOFSeats) : base(regNo, color, noOfWheels)
         {
+            this.NoOfSeats = noOFSeats;
         }
         public override string ToString()
         {
-            return $"The regNo: {this.RegNo}, Color: {this.Color}, No of Wheels: {this.NoOfWheels}, Number of seats: {this.NoOfSeats}";
+            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, Number of seats: {NoOfSeats}";
         }
-
+        public int NoOfSeats
+        {
+            get
+            {
+                return this.noOfSeats;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Sorry, cannot be 0 or negative number");
+                }
+                this.noOfSeats = value;
+            }
+        }
+        public override string Stats()
+        {
+            //
+            return $"\n{base.Stats()} number of seats: {noOfSeats}";
+        }
     }
     class Car : Vehicle
     {
-        int hrsPwr = 1700;
-        public Car(string regNo, string color, int noOfWheels) : base(regNo, color, noOfWheels)
+        private int hrsPwr;
+        public Car(string regNo, string color, int noOfWheels, int hrsPwr) : base(regNo, color, noOfWheels)
         {
 
         }
         public override string ToString()
         {
-            return $"The regNo: {this.RegNo}, Color: {this.Color}, No of Wheels: {this.NoOfWheels}, HorsePower: {this.hrsPwr}";
+            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {hrsPwr}";
         }
 
+        public int HrsPwr
+        {
+            get
+            {
+                return this.hrsPwr;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Sorry, cannot be 0 or negative number - WHAT KIND OF A CAR ARE YOU DRIVING...???");
+                }
+                this.hrsPwr = value;
+            }
+        }
+        public override string Stats()
+        {
+            //
+            return $"\n{base.Stats()} number of seats: {hrsPwr}";
+        }
     }
     class Motorcycle : Vehicle
     {
-        int hrsPwr = 1200;
-        public Motorcycle(string regNo, string color, int noOfWheels) : base(regNo, color, noOfWheels)
+        private int hrsPwr;
+        public Motorcycle(string regNo, string color, int noOfWheels, int hrsPwr) : base(regNo, color, noOfWheels)
         {
         }
         public override string ToString()
         {
-            return $"The regNo: {this.RegNo}, Color: {this.Color}, No of Wheels: {this.NoOfWheels}, HorsePower: {this.hrsPwr}";
+            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {hrsPwr}";
+        }
+        public int HrsPwr
+        {
+            get
+            {
+                return this.hrsPwr;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Sorry, cannot be 0 or negative number");
+                }
+                this.hrsPwr = value;
+            }
+        }
+        public override string Stats()
+        {
+            //
+            return $"\n{base.Stats()} number of seats: {hrsPwr}";
         }
 
     }

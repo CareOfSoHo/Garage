@@ -1,32 +1,35 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
+ 
 
 namespace Garage
 {
-    public class GarageHandler
+    public class GarageHandler : IGarageHandler
     {
-        //public ArrayList garageArrayList;
-        private List<Vehicle> vehicles;
+        private readonly IGarage<IVehicle> garage;
+        private readonly T[] vehickes;
 
+        private List<Vehicle> vehicles;
 
         public GarageHandler()
         {
-            // ropa på Garage.cs
-
+       
             //Skapar instans av vehicle lista
             vehicles = new List<Vehicle>();
 
             //hårdkodat
-            Vehicle v = new AirPlane("AIR123", "White", 8);
+            Vehicle v = new AirPlane("AIR123", "White", 8, 1, "Black Hawk");
             vehicles.Add(v);
-            v = new Boat("BOAT98", "Purple", 0);
+            v = new Boat("BOAT98", "Purple", 0, 30);
             vehicles.Add(v);
-            v = new Bus("BUS848", "RED", 4);
+            v = new Bus("BUS848", "RED", 4, 53);
             vehicles.Add(v);
-            v = new Car("CAR456", "Black", 4);
+            v = new Car("CAR456", "Black", 4, 450);
             vehicles.Add(v);
-            v = new Motorcycle("MC678", "Gray", 2);
+            v = new Motorcycle("MC678", "Gray", 2, 1700);
             vehicles.Add(v);
 
         }
@@ -83,7 +86,7 @@ namespace Garage
                             Console.WriteLine("Do you want to check out your vehicle? type Y/N");
                             string checkoutVehicle = Console.ReadLine().ToUpper();
 
-                            if(checkoutVehicle == "Y")
+                            if (checkoutVehicle == "Y")
                             {
                                 vehicles.RemoveAt(i);
                                 counter--; //en sökträff  mindre
@@ -129,15 +132,15 @@ namespace Garage
                     //loopar igenom vehicles listan
                     for (int i = 0; i < vehicles.Count; i++)
                     {
-                        if(vehicles[i].RegNo.ToUpper().Contains(searchWord))
+                        if (vehicles[i].RegNo.ToUpper().Contains(searchWord))
                         {
                             Console.WriteLine("The vehicle is in the garage.");
                             Console.WriteLine("It is " + vehicles[i].Color + " and it is a " + vehicles[i].GetType() + "\n\n");
                             counter++; //om sökträff
                         }
-                        else 
+                        else
                         {
-                            if((i == noOfPosts) && (counter == 0)) //loopat till sista posten och räknare för träff på sökordet är 0
+                            if ((i == noOfPosts) && (counter == 0)) //loopat till sista posten och räknare för träff på sökordet är 0
                                 Console.WriteLine("Your vehicle is not here");
                         }
                     }
@@ -151,7 +154,7 @@ namespace Garage
             {
                 Console.WriteLine("You did not provide your registration number");
             }
-            
+
         }
 
         private void ListAllVehicles()
@@ -175,83 +178,82 @@ namespace Garage
         private void ParkVehicle()
         {
             bool run = true;
-
-            Console.WriteLine("Please, provide the registration number");
-            string regNo = Console.ReadLine();
-            Console.WriteLine("Please, provide the color of your vehicle");
-            string color = Console.ReadLine();
-            Console.WriteLine("Please, provide the number of wheels on your vehicle");
-            int noOfWheels;
-
-            int.TryParse(Console.ReadLine(), out noOfWheels);
-
-            Console.WriteLine("What kind of vehicle is it?"
-                             + "\n[1]. AirPlane"
-                             + "\n[2]. Boat"
-                             + "\n[3]. Bus"
-                             + "\n[4]. Car"
-                             + "\n[5]. Motorcycle");
+            string regNo, color, model;
+            int noOfWheels, numberofEngines, cylVol, noOfSeats, hrsPwr;
             char vehicleType;
-            vehicleType = Console.ReadLine()[0];
+
+
+
+            //method for user input Vehicle Base
+            UserInputforBase(out regNo, out color, out noOfWheels, out vehicleType);
+
             while (run)
             {
                 switch (vehicleType)
                 {
                     case '1':
                         {
-                            Vehicle v = new AirPlane(regNo, color, noOfWheels);
+                            Console.WriteLine("Please, provide the model of your Airplane");
+                            model = Console.ReadLine();
+                            Console.WriteLine("Please, provide the number of Engines on your Airplane");
+
+                            int.TryParse(Console.ReadLine(), out numberofEngines);
+                            Vehicle v = new AirPlane(regNo, color, noOfWheels, numberofEngines, model);
                             vehicles.Add(v);
-                            foreach (var item in vehicles)
-                            {
-                                Console.WriteLine(item);
-                            }
+
+                            Console.WriteLine("This is what you checked in to the garage: " + v);
+
                             run = false;
                             break;
                         }
                     case '2':
                         {
-                            Vehicle v = new Boat(regNo, color, noOfWheels);
+                            Console.WriteLine("Please, provide the Cylindervolume on your Boat");
+
+                            int.TryParse(Console.ReadLine(), out cylVol);
+                            Vehicle v = new Boat(regNo, color, noOfWheels, cylVol);
                             vehicles.Add(v);
-                            foreach (var item in vehicles)
-                            {
-                                Console.WriteLine(item);
-                            }
+                            Console.WriteLine("This is what you checked in to the garage: " + v);
+
                             run = false;
                             break;
                         }
                     case '3':
                         {
-                            Vehicle v = new Bus(regNo, color, noOfWheels);
+                            Console.WriteLine("Please, provide the number of seats on your Bus");
+
+                            int.TryParse(Console.ReadLine(), out noOfSeats);
+                            Vehicle v = new Bus(regNo, color, noOfWheels, noOfSeats);
                             vehicles.Add(v);
-                            foreach (var item in vehicles)
-                            {
-                                Console.WriteLine(item);
-                            }
+                            Console.WriteLine("This is what you checked in to the garage: " + v);
+
                             run = false;
 
                             break;
                         }
                     case '4':
                         {
-                            Vehicle v = new Car(regNo, color, noOfWheels);
+                            Console.WriteLine("Please, provide the horsepowers of your car");
+
+                            int.TryParse(Console.ReadLine(), out hrsPwr);
+                            Vehicle v = new Car(regNo, color, noOfWheels, hrsPwr);
                             vehicles.Add(v);
 
-                            foreach (var item in vehicles)
-                            {
-                                Console.WriteLine(item);
-                            }
+                            Console.WriteLine("This is what you checked in to the garage: " + v);
+
                             run = false;
 
                             break;
                         }
                     case '5':
                         {
-                            Vehicle v = new Motorcycle(regNo, color, noOfWheels);
+                            Console.WriteLine("Please, provide the horsepowers of your MC");
+
+                            int.TryParse(Console.ReadLine(), out hrsPwr);
+                            Vehicle v = new Motorcycle(regNo, color, noOfWheels, hrsPwr);
                             vehicles.Add(v);
-                            foreach (var item in vehicles)
-                            {
-                                Console.WriteLine(item);
-                            }
+
+                            Console.WriteLine("This is what you checked in to the garage: " + v);
 
                             run = false;
 
@@ -267,6 +269,42 @@ namespace Garage
 
                 }
             }
+        }
+
+        #region refactor to interface
+        //refactor to interface
+        public virtual void UserInputforBase(out string regNo, out string color, out int noOfWheels, out char vehicleType)
+        {
+            Console.WriteLine("Please, provide the registration number");
+            regNo = Console.ReadLine();
+
+            //för att kolla att regnr anges ABC123
+            regNo = Vehicle.CheckRegNo(regNo);
+
+            foreach (var item in vehicles)
+            {
+                if (regNo == item.RegNo)
+                {
+                    Console.WriteLine("The regNo already exist in the garage");
+
+                    //gör om
+                    Console.WriteLine("Please, provide the registration number in the format of ABC123");
+                    regNo = Console.ReadLine();
+                }
+            }
+            Console.WriteLine("Please, provide the color of your vehicle");
+            color = Console.ReadLine();
+            Console.WriteLine("Please, provide the number of wheels on your vehicle");
+
+            int.TryParse(Console.ReadLine(), out noOfWheels);
+
+            Console.WriteLine("What kind of vehicle is it?"
+                             + "\n[1]. AirPlane"
+                             + "\n[2]. Boat"
+                             + "\n[3]. Bus"
+                             + "\n[4]. Car"
+                             + "\n[5]. Motorcycle");
+            vehicleType = Console.ReadLine()[0];
         }
 
         private char GetMenuChoise()
@@ -288,9 +326,18 @@ namespace Garage
 
                 Console.Clear();
                 Console.WriteLine("Please enter some input!");
-                menuVal = Console.ReadLine()[0];
-                return menuVal;
+                try
+                {
+                    menuVal = Console.ReadLine()[0];
+                    return menuVal;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
             }
         }
+        #endregion
     }
 }

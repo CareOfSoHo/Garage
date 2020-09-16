@@ -2,17 +2,48 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 
 namespace Garage
 {
-    public class Garage<T>
+    public class Garage<T> where T : Vehicle
     {
-        private List<Vehicle> vehicles;
+        protected int buff; // buffert
+        protected T[] vehicleArray;
+        protected int noOfSpaces; // tillgängliga platser
+        protected int noUsedSpaces; // tagna platser
+
         public string RegNo { get; set; }
        
         public Garage()
         {
+            buff = 3;
+            noUsedSpaces = 0; // garaget är tomt
+            noOfSpaces = 3; // tillgängliga platser 3st, ToDo: dynamisk
+            vehicleArray = new T[noOfSpaces];
+           
         }
+
+        #region Properties
+        public int NoOfSpaces 
+        { 
+            get
+            {
+                return noOfSpaces;
+            }
+        }
+
+        public T this[int index]
+        {
+            get 
+            {
+                return vehicleArray[index];
+            }
+        }
+
+        #endregion
+
+
 
         public override bool Equals(object obj)
         {
@@ -35,17 +66,11 @@ namespace Garage
             return base.GetHashCode();
         }
 
-        //public Vehicle GetVehicle(string regNo)
-        //{
-        //    Vehicle vehicle; // = new Vehicle(string regNo, string color, int noOfWheels);
-        //    if(regNo=="FZK678")
-        //    {
-        //       // vehicle.RegNo = regNo;
-        //        //vehicle.Color = Color;
-
-        //    }
-        //    return; // vehicle;
-        //}
+        public void AddVehicle(T regNo)
+        {
+            vehicleArray[noOfSpaces++] = regNo;
+            
+        }
 
         //public List<Vehicle> Retrive()
         //{
