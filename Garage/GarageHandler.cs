@@ -2,35 +2,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
- 
+using System.Text;
 
 namespace Garage
 {
     public class GarageHandler : IGarageHandler
     {
-        private readonly IGarage<IVehicle> garage;
-        private readonly T[] vehickes;
+        //private readonly IGarage<IVehicle> garage;
+        //private readonly T[] vehickes;
+
+        /* handlern ska skicka in vehicles i garagets Array
+         * handlern ska hämta information från Garagets Array
+         * handlern ska tabort Vehicles från Arrayen
+         */
+        private Vehicle[] vehiclesArr;
+
 
         private List<Vehicle> vehicles;
 
         public GarageHandler()
         {
-       
-            //Skapar instans av vehicle lista
-            vehicles = new List<Vehicle>();
 
-            //hårdkodat
-            Vehicle v = new AirPlane("AIR123", "White", 8, 1, "Black Hawk");
-            vehicles.Add(v);
-            v = new Boat("BOAT98", "Purple", 0, 30);
-            vehicles.Add(v);
-            v = new Bus("BUS848", "RED", 4, 53);
-            vehicles.Add(v);
-            v = new Car("CAR456", "Black", 4, 450);
-            vehicles.Add(v);
-            v = new Motorcycle("MC678", "Gray", 2, 1700);
-            vehicles.Add(v);
+            ////Skapar instans av vehicle lista
+            //vehicles = new List<Vehicle>();
+
+            ////hårdkodat
+            //Vehicle v = new AirPlane("AIR123", "White", 8, 1, "Black Hawk");
+            //vehicles.Add(v);
+            //v = new Boat("BOAT98", "Purple", 0, 30);
+            //vehicles.Add(v);
+            //v = new Bus("BUS848", "RED", 4, 53);
+            //vehicles.Add(v);
+            //v = new Car("CAR456", "Black", 4, 450);
+            //vehicles.Add(v);
+            //v = new Motorcycle("MC678", "Gray", 2, 1700);
+            //vehicles.Add(v);
+
+            vehiclesArr = new Vehicle[]
+           {
+                new AirPlane("SAS987", "Grey", 16, 4, "AirBus") as Vehicle,
+                new AirPlane("AIR643", "Gold", 30, 8, "727") as Vehicle,
+                new Boat("kak234", "Blue", 0, 35) as Vehicle,
+                new Boat("sos124", "white", 0, 305) as Vehicle
+           };
+
+            for (int i = 0; i < vehiclesArr.Length; i++)
+            {
+                Console.WriteLine(vehiclesArr[i]);
+            }
+            //foreach (var item in vehiclesArr)
+            //{
+            //    //Console.WriteLine(item.GetType().ToString() + " Color: " + item.Color + " RegNo: " + item.RegNo);
+            //    Console.WriteLine(item);
+            //}
 
         }
 
@@ -46,6 +70,7 @@ namespace Garage
                         break;
                     case '2':
                         ListAllVehicles();
+
                         break;
                     case '3':
                         SearchVehicle();
@@ -159,14 +184,14 @@ namespace Garage
 
         private void ListAllVehicles()
         {
-            if (vehicles.Count <= 0)
+            if (vehiclesArr.Length <= 0)
             {
                 Console.WriteLine("The garage is empty");
             }
             else
             {
                 Console.WriteLine("LISTED VEHICLES IN THE GARAGE:");
-                foreach (var item in vehicles)
+                foreach (var item in vehiclesArr)
                 {
                     Console.WriteLine(item);
                 }
@@ -199,7 +224,51 @@ namespace Garage
 
                             int.TryParse(Console.ReadLine(), out numberofEngines);
                             Vehicle v = new AirPlane(regNo, color, noOfWheels, numberofEngines, model);
-                            vehicles.Add(v);
+                            //vehicles.Add(v);
+                            //vehiclesArr.SetValue(v.RegNo, v.Color, v.NoOfWheels, numberofEngines, model);
+                            //vehiclesArr.Append(v.RegNo, v.Color, v.NoOfWheels, numberofEngines, model);
+
+                            string input = Console.ReadLine();
+                            if (input == "")
+                            {
+                                input = "0";
+                            }
+                            
+                            //StringBuilder strB = new StringBuilder(regNo +":"+ color + ":" + noOfWheels + ":" + numberofEngines + ":" + model);
+                            //Console.WriteLine("stringbuilder " + strB);
+
+
+                            if (vehiclesArr.Length == 0)
+                            {
+                                vehiclesArr = new Vehicle[]
+                                {
+                                new AirPlane(regNo, color, noOfWheels, numberofEngines, model) as Vehicle
+                                };
+                            }
+                            else
+                            {
+                                int lastIndex;
+                                lastIndex = vehiclesArr.Length;
+
+                               // vehiclesArr[lastIndex] = new AirPlane(regNo, color, noOfWheels, numberofEngines, model) as Vehicle;
+                                
+                                //string appendToArray = (regNo + " " + color + " " + noOfWheels + "" + numberofEngines + "" + model);
+                                    
+                                for (int i = 0; i < vehiclesArr.Length; i++)
+                                {
+                                    //vehiclesArr[i].RegNo = regNo;
+                                    //vehiclesArr[i].Color = color;
+                                    //vehiclesArr[i].NoOfWheels = noOfWheels;
+                                    vehiclesArr[lastIndex].RegNo = regNo;
+                                    vehiclesArr[lastIndex].Color = color;
+                                    vehiclesArr[lastIndex].NoOfWheels = noOfWheels;
+                                }
+                               
+                                //vehiclesArr[lastIndex].NumberofEngines = numberofEngines;
+                                //vehiclesArr[lastIndex].Model = model;
+
+                            }
+                            
 
                             Console.WriteLine("This is what you checked in to the garage: " + v);
 
@@ -212,7 +281,9 @@ namespace Garage
 
                             int.TryParse(Console.ReadLine(), out cylVol);
                             Vehicle v = new Boat(regNo, color, noOfWheels, cylVol);
-                            vehicles.Add(v);
+                            //vehicles.Add(v);
+                            vehiclesArr.Append(v);
+
                             Console.WriteLine("This is what you checked in to the garage: " + v);
 
                             run = false;
@@ -224,7 +295,9 @@ namespace Garage
 
                             int.TryParse(Console.ReadLine(), out noOfSeats);
                             Vehicle v = new Bus(regNo, color, noOfWheels, noOfSeats);
-                            vehicles.Add(v);
+                            //vehicles.Add(v);
+                            vehiclesArr.Append(v);
+
                             Console.WriteLine("This is what you checked in to the garage: " + v);
 
                             run = false;
@@ -236,8 +309,10 @@ namespace Garage
                             Console.WriteLine("Please, provide the horsepowers of your car");
 
                             int.TryParse(Console.ReadLine(), out hrsPwr);
+
                             Vehicle v = new Car(regNo, color, noOfWheels, hrsPwr);
-                            vehicles.Add(v);
+                            //vehicles.Add(v);
+                            vehiclesArr.Append(v);
 
                             Console.WriteLine("This is what you checked in to the garage: " + v);
 
@@ -250,8 +325,10 @@ namespace Garage
                             Console.WriteLine("Please, provide the horsepowers of your MC");
 
                             int.TryParse(Console.ReadLine(), out hrsPwr);
+
                             Vehicle v = new Motorcycle(regNo, color, noOfWheels, hrsPwr);
-                            vehicles.Add(v);
+                            //vehicles.Add(v);
+                            vehiclesArr.Append(v);
 
                             Console.WriteLine("This is what you checked in to the garage: " + v);
 
@@ -281,9 +358,9 @@ namespace Garage
             //för att kolla att regnr anges ABC123
             regNo = Vehicle.CheckRegNo(regNo);
 
-            foreach (var item in vehicles)
+            for (int i = 0; i < vehiclesArr.Length; i++)
             {
-                if (regNo == item.RegNo)
+                if (regNo == vehiclesArr[i].RegNo)
                 {
                     Console.WriteLine("The regNo already exist in the garage");
 
@@ -292,6 +369,18 @@ namespace Garage
                     regNo = Console.ReadLine();
                 }
             }
+
+            //foreach (var item in vehicles)
+            //{
+            //    if (regNo == item.RegNo)
+            //    {
+            //        Console.WriteLine("The regNo already exist in the garage");
+
+            //        //gör om
+            //        Console.WriteLine("Please, provide the registration number in the format of ABC123");
+            //        regNo = Console.ReadLine();
+            //    }
+            //}
             Console.WriteLine("Please, provide the color of your vehicle");
             color = Console.ReadLine();
             Console.WriteLine("Please, provide the number of wheels on your vehicle");

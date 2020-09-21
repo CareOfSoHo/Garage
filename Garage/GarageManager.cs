@@ -6,12 +6,13 @@ using System.Linq;
 
 namespace Garage
 {
-    internal class GarageManager
+    public class GarageManager
     {
         private readonly IGarageHandler handler;
         private readonly IUi ui;
+        //private IUi i_UI = new IUi();
 
-        public GarageManager(IGarageHandler handler, IUi ui)
+        internal GarageManager(IGarageHandler handler, IUi ui)
         {
             this.handler = handler;
             this.ui = ui;
@@ -19,6 +20,10 @@ namespace Garage
             Run();
             
         }
+
+        //internal IUi I_UI => i_UI;
+
+        //public IUi I_UI { get => i_UI; set => i_UI = value; }
 
         private void Run()
         {

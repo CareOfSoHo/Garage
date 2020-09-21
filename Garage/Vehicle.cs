@@ -92,7 +92,7 @@ namespace Garage
         }
         public override string ToString()
         {
-            return $"This is a {Model}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, No of engines: {noEngin}";
+            return $"This is a {Model}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}";
         }
         public override string Stats()
         {
@@ -111,7 +111,7 @@ namespace Garage
         }
         public override string ToString()
         {
-            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, CylinderVolume: {CylinderVolume}";
+            return $"This is a {GetType()}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, CylinderVolume: {CylinderVolume}";
         }
 
         public int CylinderVolume {
@@ -144,7 +144,7 @@ namespace Garage
         }
         public override string ToString()
         {
-            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, Number of seats: {NoOfSeats}";
+            return $"This is a {GetType()}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, Number of seats: {NoOfSeats}";
         }
         public int NoOfSeats
         {
@@ -176,7 +176,7 @@ namespace Garage
         }
         public override string ToString()
         {
-            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {hrsPwr}";
+            return $"This is a {GetType()}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {HrsPwr}";
         }
 
         public int HrsPwr
@@ -197,7 +197,7 @@ namespace Garage
         public override string Stats()
         {
             //
-            return $"\n{base.Stats()} number of seats: {hrsPwr}";
+            return $"\n{base.Stats()} HorsePower: {hrsPwr}";
         }
     }
     class Motorcycle : Vehicle
@@ -208,7 +208,7 @@ namespace Garage
         }
         public override string ToString()
         {
-            return $"The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {hrsPwr}";
+            return $"This is a {GetType()}, The regNo: {RegNo}, Color: {Color}, No of Wheels: {NoOfWheels}, HorsePower: {HrsPwr}";
         }
         public int HrsPwr
         {
@@ -228,7 +228,7 @@ namespace Garage
         public override string Stats()
         {
             //
-            return $"\n{base.Stats()} number of seats: {hrsPwr}";
+            return $"\n{base.Stats()} HorsePower: {hrsPwr}";
         }
 
     }
