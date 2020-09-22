@@ -228,11 +228,7 @@ namespace Garage
                             //vehiclesArr.SetValue(v.RegNo, v.Color, v.NoOfWheels, numberofEngines, model);
                             //vehiclesArr.Append(v.RegNo, v.Color, v.NoOfWheels, numberofEngines, model);
 
-                            string input = Console.ReadLine();
-                            if (input == "")
-                            {
-                                input = "0";
-                            }
+                         
                             
                             //StringBuilder strB = new StringBuilder(regNo +":"+ color + ":" + noOfWheels + ":" + numberofEngines + ":" + model);
                             //Console.WriteLine("stringbuilder " + strB);
@@ -259,9 +255,9 @@ namespace Garage
                                     //vehiclesArr[i].RegNo = regNo;
                                     //vehiclesArr[i].Color = color;
                                     //vehiclesArr[i].NoOfWheels = noOfWheels;
-                                    vehiclesArr[lastIndex].RegNo = regNo;
-                                    vehiclesArr[lastIndex].Color = color;
-                                    vehiclesArr[lastIndex].NoOfWheels = noOfWheels;
+                                    //vehiclesArr[lastIndex].RegNo = regNo;
+                                    //vehiclesArr[lastIndex].Color = color;
+                                    //vehiclesArr[lastIndex].NoOfWheels = noOfWheels;
                                 }
                                
                                 //vehiclesArr[lastIndex].NumberofEngines = numberofEngines;
